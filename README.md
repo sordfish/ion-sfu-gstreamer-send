@@ -43,3 +43,10 @@ These pipelines work on Linux, they may have issues on other platforms. We would
 * a pre-recorded video, sintel.mkv is available [here](https://durian.blender.org/download/)
 
   `go run main.go -addr "localhost:50051" -session "test session" -video-src "uridecodebin uri=file:///tmp/sintel.mkv ! videoscale ! video/x-raw, width=320, height=240 ! queue " -audio-src "uridecodebin uri=file:///tmp/sintel.mkv ! queue ! audioconvert"`
+
+## Raspivid UDP Examples
+
+```
+go run main.go -addr "localhost:50051" -session "test session" -video-src "udpsrc port=9000 ! h264parse ! rtph264pay config-interval=10 pt=96 ! rtph264depay ! avdec_h264 ! videoconvert ! autovideosink sync=false" 
+go run main.go -addr "localhost:50051" -session "test session" -video-src "udpsrc port=9000 ! h264parse ! rtph264pay config-interval=10 pt=96 ! rtph264depay ! avdec_h264 ! videoconvert" 
+ ```
