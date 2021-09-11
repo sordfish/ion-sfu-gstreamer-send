@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "go-cf-auth.name" -}}
+{{- define "ion-sfu-gstreamer-send.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "go-cf-auth.fullname" -}}
+{{- define "ion-sfu-gstreamer-send.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "go-cf-auth.chart" -}}
+{{- define "ion-sfu-gstreamer-send.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "go-cf-auth.labels" -}}
-helm.sh/chart: {{ include "go-cf-auth.chart" . }}
-{{ include "go-cf-auth.selectorLabels" . }}
+{{- define "ion-sfu-gstreamer-send.labels" -}}
+helm.sh/chart: {{ include "ion-sfu-gstreamer-send.chart" . }}
+{{ include "ion-sfu-gstreamer-send.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,17 +45,17 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "go-cf-auth.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "go-cf-auth.name" . }}
+{{- define "ion-sfu-gstreamer-send.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "ion-sfu-gstreamer-send.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
 Create the name of the service account to use
 */}}
-{{- define "go-cf-auth.serviceAccountName" -}}
+{{- define "ion-sfu-gstreamer-send.serviceAccountName" -}}
 {{- if .Values.serviceAccount.create }}
-{{- default (include "go-cf-auth.fullname" .) .Values.serviceAccount.name }}
+{{- default (include "ion-sfu-gstreamer-send.fullname" .) .Values.serviceAccount.name }}
 {{- else }}
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}

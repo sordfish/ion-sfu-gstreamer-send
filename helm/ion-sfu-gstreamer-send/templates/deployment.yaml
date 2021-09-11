@@ -1,16 +1,16 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "go-cf-auth.fullname" . }}
+  name: {{ include "ion-sfu-gstreamer-send.fullname" . }}
   labels:
-    {{- include "go-cf-auth.labels" . | nindent 4 }}
+    {{- include "ion-sfu-gstreamer-send.labels" . | nindent 4 }}
 spec:
   {{- if not .Values.autoscaling.enabled }}
   replicas: {{ .Values.replicaCount }}
   {{- end }}
   selector:
     matchLabels:
-      {{- include "go-cf-auth.selectorLabels" . | nindent 6 }}
+      {{- include "ion-sfu-gstreamer-send.selectorLabels" . | nindent 6 }}
   template:
     metadata:
       {{- with .Values.podAnnotations }}
@@ -18,13 +18,13 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "go-cf-auth.selectorLabels" . | nindent 8 }}
+        {{- include "ion-sfu-gstreamer-send.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "go-cf-auth.serviceAccountName" . }}
+      serviceAccountName: {{ include "ion-sfu-gstreamer-send.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -37,12 +37,12 @@ spec:
             - name: CF_TEAMDOMAIN
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "go-cf-auth.fullname" . }}
+                  name: {{ include "ion-sfu-gstreamer-send.fullname" . }}
                   key: teamdomain
             - name: CF_POLICY_AUD
               valueFrom:
                 secretKeyRef:
-                  name: {{ include "go-cf-auth.fullname" . }}
+                  name: {{ include "ion-sfu-gstreamer-send.fullname" . }}
                   key: policyaud                 
           ports:
             - name: http

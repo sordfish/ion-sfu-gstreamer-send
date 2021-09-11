@@ -31,4 +31,4 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: sordfish/go-cf-auth:latest,sordfish/go-cf-auth:0.0.3
+          tags: sordfish/ion-sfu-gstreamer-send:latest,sordfish/ion-sfu-gstreamer-send:0.0.1
