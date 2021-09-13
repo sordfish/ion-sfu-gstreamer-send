@@ -1,4 +1,4 @@
-name: build container image and push
+name: build container image minideb and gstreamer and push
 
 on:
   push:
