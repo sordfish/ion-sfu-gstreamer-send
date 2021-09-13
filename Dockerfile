@@ -9,4 +9,4 @@ FROM sordfish/minideb-gstreamer:latest as runtime
 
 COPY --from=build /app/ion-sfu-gstreamer-send /
 COPY startup.sh /
-CMD ["/bin/sh" "startup.sh"]
+CMD ["/bin/sh", "startup.sh"]
