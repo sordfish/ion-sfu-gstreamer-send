@@ -11,4 +11,4 @@ FROM bitnami/minideb:buster as runtime
 RUN apt-get update && apt-get install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev gstreamer1.0-plugins-good -y
 COPY --from=build /app/ion-sfu-gstreamer-send /
 COPY startup.sh /
-CMD ./ion-sfu-gstreamer-send
+CMD ["/bin/sh" "startup.sh"]
