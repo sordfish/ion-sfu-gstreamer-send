@@ -29,6 +29,7 @@ jobs:
         uses: docker/build-push-action@v2
         with:
           context: .
+          file: ./Dockerfile.build
           platforms: linux/amd64,linux/arm64
           push: true
           tags: sordfish/build-tools:latest,sordfish/build-tools:v1.17
