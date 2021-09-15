@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+
 	gst "github.com/pion/ion-sdk-go/pkg/gstreamer-src"
 
 	ilog "github.com/pion/ion-log"
@@ -25,9 +26,9 @@ func main() {
 	// add stun servers
 	webrtcCfg := webrtc.Configuration{
 		ICEServers: []webrtc.ICEServer{
-			webrtc.ICEServer{
-				URLs: []string{"stun:stun.stunprotocol.org:3478", "stun:stun.l.google.com:19302"},
-			},
+			// webrtc.ICEServer{
+			// 	URLs: []string{"stun:stun.stunprotocol.org:3478", "stun:stun.l.google.com:19302"},
+			// },
 		},
 	}
 
