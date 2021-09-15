@@ -1,9 +1,9 @@
-name: build container image minideb and gstreamer and push
+name: build container image ubuntu and gstreamer and push
 
 on:
   push:
     paths:
-      - 'Dockerfile.minideb.gstreamer'
+      - 'Dockerfile.ubuntu.gstreamer'
 
 jobs:
   docker-gstreamer:
