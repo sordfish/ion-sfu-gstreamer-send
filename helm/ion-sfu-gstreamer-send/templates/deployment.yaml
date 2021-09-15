@@ -24,7 +24,6 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
-      serviceAccountName: {{ include "ion-sfu-gstreamer-send.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
@@ -34,28 +33,19 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
-            - name: CF_TEAMDOMAIN
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "ion-sfu-gstreamer-send.fullname" . }}
-                  key: teamdomain
-            - name: CF_POLICY_AUD
-              valueFrom:
-                secretKeyRef:
-                  name: {{ include "ion-sfu-gstreamer-send.fullname" . }}
-                  key: policyaud                 
+            - name: ION_CLIENT_SFU_ADDR
+              value: "ion-sfu:50051"
+            - name: ION_CLIENT_SFU_SESSION
+              value: {{ .Release.Name }}
+            - name: ION_CLIENT_VIDEO_SRC
+              value: "udpsrc port=10000 ! h264parse ! rtph264pay config-interval=10 pt=96 ! rtph264depay ! avdec_h264 ! videoconvert"                          
           ports:
-            - name: http
-              containerPort: 3000
-              protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /livez
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /readyz
-              port: http
+            - name: videosrcport
+              containerPort: {{ .Values.config.videosrcport }}
+              protocol: UDP
+            - name: audiosrcport
+              containerPort: {{ .Values.config.audiosrcport }}
+              protocol: UDP
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

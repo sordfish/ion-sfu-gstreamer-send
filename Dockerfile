@@ -5,7 +5,7 @@ COPY ./* /app/
 RUN go build -o ion-sfu-gstreamer-send
 
 
-FROM sordfish/minideb-gstreamer:latest as runtime
+FROM sordfish/ubuntu-gstreamer:latest as runtime
 
 COPY --from=build /app/ion-sfu-gstreamer-send /
 COPY startup.sh /
