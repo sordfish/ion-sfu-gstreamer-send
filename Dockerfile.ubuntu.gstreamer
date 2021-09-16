@@ -1,2 +1,2 @@
 FROM restreamio/gstreamer:latest-prod-dbg
-RUN apt-get update && apt-get install nano curl
+RUN apt-get update && apt-get install nano curl wget
