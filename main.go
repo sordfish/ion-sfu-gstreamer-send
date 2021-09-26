@@ -88,7 +88,7 @@ func main() {
 
 	// Start pushing buffers on these tracks
 	gst.CreatePipeline("opus", []*webrtc.TrackLocalStaticSample{audioTrack}, *audioSrc).Start()
-	gst.CreatePipeline("vp8", []*webrtc.TrackLocalStaticSample{videoTrack}, *videoSrc).Start()
+	gst.CreatePipeline("h264", []*webrtc.TrackLocalStaticSample{videoTrack}, *videoSrc).Start()
 
 	select {}
 }
