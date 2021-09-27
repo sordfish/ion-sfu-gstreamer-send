@@ -9,11 +9,11 @@ spec:
   ports:
     - port: {{ .Values.config.videosrcport }}
       targetPort: {{ .Values.config.videosrcport }}
-      protocol: 
+      protocol: UDP
       name: videosrcport
     - port: {{ .Values.config.audiosrcport }}
       targetPort: {{ .Values.config.audiosrcport }}
-      protocol: 
+      protocol: UDP
       name: audiosrcsort 
   selector:
     {{- include "ion-sfu-gstreamer-send.selectorLabels" . | nindent 4 }}
