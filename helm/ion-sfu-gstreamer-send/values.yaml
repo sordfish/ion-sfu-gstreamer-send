@@ -11,7 +11,7 @@ replicaCount: 1
 
 image:
   repository: sordfish/ion-sfu-gstreamer-send
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
   tag: "v0.0.6"
 
