@@ -13,7 +13,7 @@ image:
   repository: sordfish/ion-sfu-gstreamer-send
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v0.0.7"
+  tag: "v0.0.8"
 
 imagePullSecrets: []
 nameOverride: ""
