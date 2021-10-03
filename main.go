@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"os"
 
 	gst "github.com/pion/ion-sdk-go/pkg/gstreamer-src"
 
@@ -23,6 +24,11 @@ func main() {
 	audioSrc := flag.String("audio-src", "audiotestsrc", "GStreamer audio src")
 	videoSrc := flag.String("video-src", "videotestsrc", "GStreamer video src")
 	flag.Parse()
+
+	servicename, err := os.Hostname()
+	if err != nil {
+		panic(err)
+	}
 
 	// add stun servers
 	webrtcCfg := webrtc.Configuration{
@@ -64,17 +70,17 @@ func main() {
 
 	switch videocodec {
 	case "vp8":
-		videoTrack, err = webrtc.NewTrackLocalStaticSample(webrtc.RTPCodecCapability{MimeType: "video/vp8"}, "video", "pion2")
+		videoTrack, err = webrtc.NewTrackLocalStaticSample(webrtc.RTPCodecCapability{MimeType: "video/vp8"}, "video", servicename+"-video")
 		if err != nil {
 			panic(err)
 		}
 	case "h264":
-		videoTrack, err = webrtc.NewTrackLocalStaticSample(webrtc.RTPCodecCapability{MimeType: "video/h264"}, "video", "pion2")
+		videoTrack, err = webrtc.NewTrackLocalStaticSample(webrtc.RTPCodecCapability{MimeType: "video/h264"}, "video", servicename+"-video")
 		if err != nil {
 			panic(err)
 		}
 	default:
-		videoTrack, err = webrtc.NewTrackLocalStaticSample(webrtc.RTPCodecCapability{MimeType: "video/vp8"}, "video", "pion2")
+		videoTrack, err = webrtc.NewTrackLocalStaticSample(webrtc.RTPCodecCapability{MimeType: "video/vp8"}, "video", servicename+"-video")
 		if err != nil {
 			panic(err)
 		}
@@ -85,7 +91,7 @@ func main() {
 		panic(err)
 	}
 
-	audioTrack, err := webrtc.NewTrackLocalStaticSample(webrtc.RTPCodecCapability{MimeType: "audio/opus"}, "audio", "pion1")
+	audioTrack, err := webrtc.NewTrackLocalStaticSample(webrtc.RTPCodecCapability{MimeType: "audio/opus"}, "audio", servicename+"-audio")
 	if err != nil {
 		panic(err)
 	}
