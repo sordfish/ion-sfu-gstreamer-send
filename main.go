@@ -67,6 +67,7 @@ func main() {
 	}
 
 	var videoTrack *webrtc.TrackLocalStaticSample
+	var audioTrack *webrtc.TrackLocalStaticSample
 
 	switch videocodec {
 	case "vp8":
@@ -91,13 +92,15 @@ func main() {
 		panic(err)
 	}
 
-	audioTrack, err := webrtc.NewTrackLocalStaticSample(webrtc.RTPCodecCapability{MimeType: "audio/opus"}, "audio", servicename+"-audio")
-	if err != nil {
-		panic(err)
-	}
-	_, err = peerConnection.AddTrack(audioTrack)
-	if err != nil {
-		panic(err)
+	if audioSrc != nil {
+		audioTrack, err = webrtc.NewTrackLocalStaticSample(webrtc.RTPCodecCapability{MimeType: "audio/opus"}, "audio", servicename+"-audio")
+		if err != nil {
+			panic(err)
+		}
+		_, err = peerConnection.AddTrack(audioTrack)
+		if err != nil {
+			panic(err)
+		}
 	}
 
 	// client join a session
@@ -109,7 +112,9 @@ func main() {
 	}
 
 	// Start pushing buffers on these tracks
-	gst.CreatePipeline("opus", []*webrtc.TrackLocalStaticSample{audioTrack}, *audioSrc).Start()
+	if audioSrc != nil {
+		gst.CreatePipeline("opus", []*webrtc.TrackLocalStaticSample{audioTrack}, *audioSrc).Start()
+	}
 
 	switch videocodec {
 	case "vp8":

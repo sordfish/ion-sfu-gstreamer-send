@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "ion-sfu-gstreamer-send.fullname" . }}
+  name: {{ include "ion-sfu-gstreamer-send.fullname" . }}-{{ .Release.Name }}
   labels:
     {{- include "ion-sfu-gstreamer-send.labels" . | nindent 4 }}
 spec:
