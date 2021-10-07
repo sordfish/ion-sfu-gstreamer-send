@@ -25,6 +25,8 @@ func main() {
 	videoSrc := flag.String("video-src", "videotestsrc", "GStreamer video src")
 	flag.Parse()
 
+	log.Infof("Running video source: %s", *videoSrc)
+
 	servicename, err := os.Hostname()
 	if err != nil {
 		panic(err)
