@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ include "ion-sfu-gstreamer-send.fullname" . }}
+  name: {{ include "ion-sfu-gstreamer-send.fullname" . }}-{{ .Release.Name }}
   labels:
     {{- include "ion-sfu-gstreamer-send.labels" . | nindent 4 }}
 spec:
@@ -33,6 +33,8 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
+            - name : GST_DEBUG
+              value : "9"
             - name: ION_CLIENT_SFU_ADDR
               value: "ion-sfu:50051"
             - name: ION_CLIENT_SFU_SESSION
