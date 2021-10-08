@@ -26,6 +26,7 @@ func main() {
 	flag.Parse()
 
 	log.Infof("Running video source: %s", *videoSrc)
+	log.Infof("Running audio source: %s", *audioSrc)
 
 	servicename, err := os.Hostname()
 	if err != nil {

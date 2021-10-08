@@ -34,7 +34,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name : GST_DEBUG
-              value : "9"
+              value : "2"
             - name: ION_CLIENT_SFU_ADDR
               value: "ion-sfu:50051"
             - name: ION_CLIENT_SFU_SESSION
