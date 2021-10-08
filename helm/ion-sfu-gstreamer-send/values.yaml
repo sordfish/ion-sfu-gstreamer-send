@@ -5,7 +5,16 @@
 config:
   videosrcport: 10000
   audiosrcport: 11000
-
+  ionsfu:
+    address: "ion-sfu:50051"
+  gstreamer:  
+    debug: "2"
+    audio:
+      codec: "opus"
+      source: ""
+    video:
+      codec: "vp8"
+      source: "udpsrc port=10000 ! h264parse ! rtph264pay config-interval=10 pt=96 ! rtph264depay ! avdec_h264 ! videoconvert"
 
 replicaCount: 1
 
@@ -13,7 +22,7 @@ image:
   repository: sordfish/ion-sfu-gstreamer-send
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v0.0.11"
+  tag: "v0.0.13"
 
 imagePullSecrets: []
 nameOverride: ""

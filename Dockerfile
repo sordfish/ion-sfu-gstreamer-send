@@ -8,5 +8,4 @@ RUN go build -o ion-sfu-gstreamer-send
 FROM sordfish/ubuntu-gstreamer:latest as runtime
 
 COPY --from=build /app/ion-sfu-gstreamer-send /
-COPY startup.sh /
-CMD ["/bin/sh", "startup.sh"]
+CMD ["./ion-sfu-gstreamer-send"]

@@ -34,13 +34,17 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name : GST_DEBUG
-              value : "2"
-            - name: ION_CLIENT_SFU_ADDR
-              value: "ion-sfu:50051"
-            - name: ION_CLIENT_SFU_SESSION
+              value : {{ .Values.config.gstreamer.debug }}
+            - name: ISGS_ADDR
+              value: {{ .Values.config.ionsfu.address }}
+            - name: ISGS_SESSION
               value: {{ .Release.Name }}
-            - name: ION_CLIENT_VIDEO_SRC
-              value: "udpsrc port=10000 ! h264parse ! rtph264pay config-interval=10 pt=96 ! rtph264depay ! avdec_h264 ! videoconvert"                          
+            - name: ISGS_VIDEO_CODEC
+              value: {{ .Values.config.gstreamer.video.codec }}
+            - name: ISGS_VIDEO_SRC
+              value: {{ .Values.config.gstreamer.video.source }}
+            - name: ISGS_AUDIO_SRC
+              value: {{ .Values.config.gstreamer.audio.source }}              
           ports:
             - name: videosrcport
               containerPort: {{ .Values.config.videosrcport }}

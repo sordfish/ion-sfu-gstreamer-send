@@ -15,18 +15,39 @@ var (
 	log = ilog.NewLoggerWithFields(ilog.DebugLevel, "", nil)
 )
 
+func varctl(envvar string, flag string) string {
+
+	if flag != "" {
+		return flag
+	} else {
+		return envvar
+	}
+
+}
+
 func main() {
 	// parse flag
-	var session, addr, videocodec string
-	flag.StringVar(&addr, "addr", "localhost:50051", "Ion-sfu grpc addr")
-	flag.StringVar(&session, "session", "test room", "join session name")
-	flag.StringVar(&videocodec, "video-codec", "vp8", "set video codec vp8 or h264")
-	audioSrc := flag.String("audio-src", "audiotestsrc", "GStreamer audio src")
-	videoSrc := flag.String("video-src", "videotestsrc", "GStreamer video src")
-	flag.Parse()
+	//var session, addr, videocodec string
 
-	log.Infof("Running video source: %s", *videoSrc)
-	log.Infof("Running audio source: %s", *audioSrc)
+	env_addr := os.Getenv("ISGS_ADDR")
+	env_session := os.Getenv("ISGS_SESSION")
+	env_videocodec := os.Getenv("ISGS_VIDEO_CODEC")
+	env_videoSrc := os.Getenv("ISGS_VIDEO_SRC")
+	env_audioSrc := os.Getenv("ISGS_AUDIO_SRC")
+
+	log.Infof("This is the testaddr %s", env_addr)
+	log.Infof("This is the testsession %s", env_session)
+	log.Infof("This is the testvideocodec %s", env_videocodec)
+	log.Infof("This is the testvideosrc %s", env_videoSrc)
+	log.Infof("This is the testaudiosrc %s", env_audioSrc)
+
+	var flag_session, flag_addr, flag_videocodec string
+	flag.StringVar(&flag_addr, "addr", "", "Ion-sfu grpc addr")
+	flag.StringVar(&flag_session, "session", "", "join session name")
+	flag.StringVar(&flag_videocodec, "video-codec", "", "set video codec vp8 or h264")
+	flag_audioSrc := flag.String("audio-src", "audiotestsrc", "GStreamer audio src")
+	flag_videoSrc := flag.String("video-src", "videotestsrc", "GStreamer video src")
+	flag.Parse()
 
 	servicename, err := os.Hostname()
 	if err != nil {
@@ -51,7 +72,7 @@ func main() {
 	e := sdk.NewEngine(config)
 
 	// get a client from engine
-	c, err := sdk.NewClient(e, addr, "client id")
+	c, err := sdk.NewClient(e, varctl(env_addr, flag_addr), "client id")
 
 	var peerConnection *webrtc.PeerConnection = c.GetPubTransport().GetPeerConnection()
 
@@ -72,7 +93,7 @@ func main() {
 	var videoTrack *webrtc.TrackLocalStaticSample
 	var audioTrack *webrtc.TrackLocalStaticSample
 
-	switch videocodec {
+	switch varctl(env_videocodec, flag_videocodec) {
 	case "vp8":
 		videoTrack, err = webrtc.NewTrackLocalStaticSample(webrtc.RTPCodecCapability{MimeType: "video/vp8"}, "video", servicename+"-video")
 		if err != nil {
@@ -95,7 +116,7 @@ func main() {
 		panic(err)
 	}
 
-	if audioSrc != nil {
+	if varctl(env_audioSrc, *flag_audioSrc) != "" {
 		audioTrack, err = webrtc.NewTrackLocalStaticSample(webrtc.RTPCodecCapability{MimeType: "audio/opus"}, "audio", servicename+"-audio")
 		if err != nil {
 			panic(err)
@@ -107,7 +128,7 @@ func main() {
 	}
 
 	// client join a session
-	err = c.Join(session, nil)
+	err = c.Join(varctl(env_session, flag_session), nil)
 
 	if err != nil {
 		log.Errorf("join err=%v", err)
@@ -115,17 +136,17 @@ func main() {
 	}
 
 	// Start pushing buffers on these tracks
-	if audioSrc != nil {
-		gst.CreatePipeline("opus", []*webrtc.TrackLocalStaticSample{audioTrack}, *audioSrc).Start()
+	if varctl(env_audioSrc, *flag_audioSrc) != "" {
+		gst.CreatePipeline("opus", []*webrtc.TrackLocalStaticSample{audioTrack}, varctl(env_audioSrc, *flag_audioSrc)).Start()
 	}
 
-	switch videocodec {
+	switch varctl(env_videocodec, flag_videocodec) {
 	case "vp8":
-		gst.CreatePipeline("vp8", []*webrtc.TrackLocalStaticSample{videoTrack}, *videoSrc).Start()
+		gst.CreatePipeline("vp8", []*webrtc.TrackLocalStaticSample{videoTrack}, varctl(env_videoSrc, *flag_videoSrc)).Start()
 	case "h264":
-		gst.CreatePipeline("h264", []*webrtc.TrackLocalStaticSample{videoTrack}, *videoSrc).Start()
+		gst.CreatePipeline("h264", []*webrtc.TrackLocalStaticSample{videoTrack}, varctl(env_videoSrc, *flag_videoSrc)).Start()
 	default:
-		gst.CreatePipeline("vp8", []*webrtc.TrackLocalStaticSample{videoTrack}, *videoSrc).Start()
+		gst.CreatePipeline("vp8", []*webrtc.TrackLocalStaticSample{videoTrack}, varctl(env_videoSrc, *flag_videoSrc)).Start()
 
 	}
 
