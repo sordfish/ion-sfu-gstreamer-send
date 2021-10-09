@@ -34,17 +34,17 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             - name : GST_DEBUG
-              value : {{ .Values.config.gstreamer.debug }}
+              value : "{{ .Values.config.gstreamer.debug }}"
             - name: ISGS_ADDR
-              value: {{ .Values.config.ionsfu.address }}
+              value: "{{ .Values.config.ionsfu.address }}"
             - name: ISGS_SESSION
-              value: {{ .Release.Name }}
+              value: "{{ .Release.Name }}"
             - name: ISGS_VIDEO_CODEC
-              value: {{ .Values.config.gstreamer.video.codec }}
+              value: "{{ .Values.config.gstreamer.video.codec }}"
             - name: ISGS_VIDEO_SRC
-              value: {{ .Values.config.gstreamer.video.source }}
+              value: "{{ .Values.config.gstreamer.video.source }}"
             - name: ISGS_AUDIO_SRC
-              value: {{ .Values.config.gstreamer.audio.source }}              
+              value: "{{ .Values.config.gstreamer.audio.source }}"          
           ports:
             - name: videosrcport
               containerPort: {{ .Values.config.videosrcport }}

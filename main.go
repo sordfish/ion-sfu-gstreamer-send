@@ -1,7 +1,6 @@
 package main
 
 import (
-	"flag"
 	"os"
 
 	gst "github.com/pion/ion-sdk-go/pkg/gstreamer-src"
@@ -15,19 +14,17 @@ var (
 	log = ilog.NewLoggerWithFields(ilog.DebugLevel, "", nil)
 )
 
-func varctl(envvar string, flag string) string {
+// func varctl(envvar string, flag string) string {
 
-	if flag != "" {
-		return flag
-	} else {
-		return envvar
-	}
+// 	if flag != "" {
+// 		return flag
+// 	} else {
+// 		return envvar
+// 	}
 
-}
+// }
 
 func main() {
-	// parse flag
-	//var session, addr, videocodec string
 
 	env_addr := os.Getenv("ISGS_ADDR")
 	env_session := os.Getenv("ISGS_SESSION")
@@ -35,19 +32,11 @@ func main() {
 	env_videoSrc := os.Getenv("ISGS_VIDEO_SRC")
 	env_audioSrc := os.Getenv("ISGS_AUDIO_SRC")
 
-	log.Infof("This is the testaddr %s", env_addr)
-	log.Infof("This is the testsession %s", env_session)
-	log.Infof("This is the testvideocodec %s", env_videocodec)
-	log.Infof("This is the testvideosrc %s", env_videoSrc)
-	log.Infof("This is the testaudiosrc %s", env_audioSrc)
-
-	var flag_session, flag_addr, flag_videocodec string
-	flag.StringVar(&flag_addr, "addr", "", "Ion-sfu grpc addr")
-	flag.StringVar(&flag_session, "session", "", "join session name")
-	flag.StringVar(&flag_videocodec, "video-codec", "", "set video codec vp8 or h264")
-	flag_audioSrc := flag.String("audio-src", "audiotestsrc", "GStreamer audio src")
-	flag_videoSrc := flag.String("video-src", "videotestsrc", "GStreamer video src")
-	flag.Parse()
+	log.Infof("This is the env addr: %s", env_addr)
+	log.Infof("This is the env session: %s", env_session)
+	log.Infof("This is the env videocodec: %s", env_videocodec)
+	log.Infof("This is the env videosrc: %s", env_videoSrc)
+	log.Infof("This is the env audiosrc: %s", env_audioSrc)
 
 	servicename, err := os.Hostname()
 	if err != nil {
@@ -72,7 +61,7 @@ func main() {
 	e := sdk.NewEngine(config)
 
 	// get a client from engine
-	c, err := sdk.NewClient(e, varctl(env_addr, flag_addr), "client id")
+	c, err := sdk.NewClient(e, env_addr, "client id")
 
 	var peerConnection *webrtc.PeerConnection = c.GetPubTransport().GetPeerConnection()
 
@@ -93,7 +82,7 @@ func main() {
 	var videoTrack *webrtc.TrackLocalStaticSample
 	var audioTrack *webrtc.TrackLocalStaticSample
 
-	switch varctl(env_videocodec, flag_videocodec) {
+	switch env_videocodec {
 	case "vp8":
 		videoTrack, err = webrtc.NewTrackLocalStaticSample(webrtc.RTPCodecCapability{MimeType: "video/vp8"}, "video", servicename+"-video")
 		if err != nil {
@@ -116,7 +105,7 @@ func main() {
 		panic(err)
 	}
 
-	if varctl(env_audioSrc, *flag_audioSrc) != "" {
+	if env_audioSrc != "" {
 		audioTrack, err = webrtc.NewTrackLocalStaticSample(webrtc.RTPCodecCapability{MimeType: "audio/opus"}, "audio", servicename+"-audio")
 		if err != nil {
 			panic(err)
@@ -128,7 +117,7 @@ func main() {
 	}
 
 	// client join a session
-	err = c.Join(varctl(env_session, flag_session), nil)
+	err = c.Join(env_session, nil)
 
 	if err != nil {
 		log.Errorf("join err=%v", err)
@@ -136,17 +125,17 @@ func main() {
 	}
 
 	// Start pushing buffers on these tracks
-	if varctl(env_audioSrc, *flag_audioSrc) != "" {
-		gst.CreatePipeline("opus", []*webrtc.TrackLocalStaticSample{audioTrack}, varctl(env_audioSrc, *flag_audioSrc)).Start()
+	if env_audioSrc != "" {
+		gst.CreatePipeline("opus", []*webrtc.TrackLocalStaticSample{audioTrack}, env_audioSrc).Start()
 	}
 
-	switch varctl(env_videocodec, flag_videocodec) {
+	switch env_videocodec {
 	case "vp8":
-		gst.CreatePipeline("vp8", []*webrtc.TrackLocalStaticSample{videoTrack}, varctl(env_videoSrc, *flag_videoSrc)).Start()
+		gst.CreatePipeline("vp8", []*webrtc.TrackLocalStaticSample{videoTrack}, env_videoSrc).Start()
 	case "h264":
-		gst.CreatePipeline("h264", []*webrtc.TrackLocalStaticSample{videoTrack}, varctl(env_videoSrc, *flag_videoSrc)).Start()
+		gst.CreatePipeline("h264", []*webrtc.TrackLocalStaticSample{videoTrack}, env_videoSrc).Start()
 	default:
-		gst.CreatePipeline("vp8", []*webrtc.TrackLocalStaticSample{videoTrack}, varctl(env_videoSrc, *flag_videoSrc)).Start()
+		gst.CreatePipeline("vp8", []*webrtc.TrackLocalStaticSample{videoTrack}, env_videoSrc).Start()
 
 	}
 
