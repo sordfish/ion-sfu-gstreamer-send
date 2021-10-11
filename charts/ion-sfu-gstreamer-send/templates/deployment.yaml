@@ -38,7 +38,7 @@ spec:
             - name: ISGS_ADDR
               value: "{{ .Values.config.ionsfu.address }}"
             - name: ISGS_SESSION
-              value: "{{ .Release.Name }}"
+              value: "{{ .Release.Namespace }}"
             - name: ISGS_VIDEO_CODEC
               value: "{{ .Values.config.gstreamer.video.codec }}"
             - name: ISGS_VIDEO_SRC
