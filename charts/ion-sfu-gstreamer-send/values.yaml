@@ -14,7 +14,7 @@ config:
       source: ""
     video:
       codec: "vp8"
-      source: "udpsrc port=10000 ! h264parse ! rtph264pay config-interval=10 pt=96 ! rtph264depay ! avdec_h264 ! videoconvert"
+      source: "udpsrc port=10000 ! queue ! h264parse ! rtph264pay config-interval=10 pt=96 ! rtph264depay ! avdec_h264 ! videoconvert"
 
 replicaCount: 1
 
