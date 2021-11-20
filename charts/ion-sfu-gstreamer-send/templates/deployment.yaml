@@ -54,7 +54,7 @@ spec:
               protocol: UDP
           livenessProbe:
             httpGet:
-              path: /
+              path: /healthz
               port: 8090
           # readinessProbe:
           #   httpGet:
