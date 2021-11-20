@@ -52,6 +52,14 @@ spec:
             - name: audiosrcport
               containerPort: {{ .Values.config.audiosrcport }}
               protocol: UDP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8090
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: https              
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}

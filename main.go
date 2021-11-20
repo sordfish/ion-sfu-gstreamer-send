@@ -3,6 +3,9 @@ package main
 import (
 	"os"
 
+	"fmt"
+	"net/http"
+
 	gst "github.com/pion/ion-sdk-go/pkg/gstreamer-src"
 
 	ilog "github.com/pion/ion-log"
@@ -14,15 +17,9 @@ var (
 	log = ilog.NewLoggerWithFields(ilog.DebugLevel, "", nil)
 )
 
-// func varctl(envvar string, flag string) string {
-
-// 	if flag != "" {
-// 		return flag
-// 	} else {
-// 		return envvar
-// 	}
-
-// }
+func healthz(w http.ResponseWriter, req *http.Request) {
+	fmt.Fprintf(w, "OK\n")
+}
 
 func main() {
 
@@ -139,5 +136,9 @@ func main() {
 
 	}
 
+	http.HandleFunc("/healthz", healthz)
+	http.ListenAndServe(":8090", nil)
+
 	select {}
+
 }
