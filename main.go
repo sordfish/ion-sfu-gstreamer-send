@@ -136,6 +136,8 @@ func main() {
 
 	}
 
+	go e.Stats(3)
+
 	http.HandleFunc("/healthz", healthz)
 	http.ListenAndServe(":8090", nil)
 
