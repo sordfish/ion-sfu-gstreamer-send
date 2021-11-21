@@ -40,4 +40,4 @@ jobs:
           context: .
           platforms: linux/amd64,linux/arm64
           push: true
-          tags: sordfish/ion-sfu-gstreamer-send:latest,sordfish/ion-sfu-gstreamer-send:v0.0.15
+          tags: sordfish/ion-sfu-gstreamer-send:latest,sordfish/ion-sfu-gstreamer-send:v0.0.16
