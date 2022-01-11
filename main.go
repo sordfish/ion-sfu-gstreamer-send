@@ -52,6 +52,7 @@ func main() {
 	config := sdk.Config{
 		WebRTC: sdk.WebRTCTransportConfig{
 			Configuration: webrtcCfg,
+			VideoMime:     "video/h264",
 		},
 	}
 	// new sdk engine
@@ -86,7 +87,9 @@ func main() {
 			panic(err)
 		}
 	case "h264":
-		videoTrack, err = webrtc.NewTrackLocalStaticSample(webrtc.RTPCodecCapability{MimeType: "video/h264"}, "video", servicename+"-video")
+
+		videoTrack, err = webrtc.NewTrackLocalStaticSample(webrtc.RTPCodecCapability{MimeType: "video/h264", ClockRate: 90000, Channels: 0, SDPFmtpLine: "packetization-mode=1;profile-level-id=42e01f", RTCPFeedback: nil}, "video11", servicename+"-video")
+		//videoTrack, err = webrtc.NewTrackLocalStaticSample(webrtc.RTPCodecCapability{MimeType: "video/h264"}, "video", servicename+"-video")
 		if err != nil {
 			panic(err)
 		}
