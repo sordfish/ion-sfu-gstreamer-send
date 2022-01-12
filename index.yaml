@@ -3,6 +3,16 @@ entries:
   ion-sfu-gstreamer-send:
   - apiVersion: v2
     appVersion: 0.0.18
+    created: "2022-01-12T11:50:42.756013496Z"
+    description: A Helm chart for ion-sfu-gstreamer-send on Kubernetes
+    digest: 0c207152e6530f3f72f7870b0954261ecc631ba2030b7c7c2bdd5b77164988d2
+    name: ion-sfu-gstreamer-send
+    type: application
+    urls:
+    - https://github.com/sordfish/ion-sfu-gstreamer-send/releases/download/ion-sfu-gstreamer-send-0.1.12/ion-sfu-gstreamer-send-0.1.12.tgz
+    version: 0.1.12
+  - apiVersion: v2
+    appVersion: 0.0.18
     created: "2022-01-11T19:45:05.836285251Z"
     description: A Helm chart for ion-sfu-gstreamer-send on Kubernetes
     digest: 183b02a6adef3ef31a345a9721c00a407515c86fc5aa84d50aa0804f74c6f30b
@@ -61,4 +71,4 @@ entries:
     urls:
     - https://github.com/sordfish/ion-sfu-gstreamer-send/releases/download/ion-sfu-gstreamer-send-0.1.5/ion-sfu-gstreamer-send-0.1.5.tgz
     version: 0.1.5
-generated: "2022-01-11T19:45:05.836306251Z"
+generated: "2022-01-12T11:50:42.756219498Z"
