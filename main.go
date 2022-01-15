@@ -44,82 +44,37 @@ func main() {
 		panic(err)
 	}
 
-	// add stun servers
-	webrtcCfg := webrtc.Configuration{
-		ICEServers: []webrtc.ICEServer{
-			{
-				URLs:       []string{"turn:" + env_turnAddr},
-				Username:   env_turnUser,
-				Credential: env_turnPass,
-			},
-		},
-	}
-
-	config := sdk.Config{
+	config := sdk.RTCConfig{
 		WebRTC: sdk.WebRTCTransportConfig{
-			Configuration: webrtcCfg,
-			VideoMime:     "video/h264",
+			VideoMime: "video/h264",
 		},
 	}
-	// new sdk engine
-	e := sdk.NewEngine(config)
 
-	// get a client from engine
-	c, err := sdk.NewClient(e, env_addr, "client id")
+	connector := sdk.NewConnector(env_addr)
+	rtc := sdk.NewRTC(connector, config)
 
-	var peerConnection *webrtc.PeerConnection = c.GetPubTransport().GetPeerConnection()
-
-	peerConnection.OnICEConnectionStateChange(func(state webrtc.ICEConnectionState) {
-		log.Infof("Connection state changed: %s", state)
-	})
-
-	if err != nil {
-		log.Errorf("client err=%v", err)
-		panic(err)
-	}
-
-	err = e.AddClient(c)
-	if err != nil {
-		return
-	}
-
-	var videoTrack *webrtc.TrackLocalStaticSample
-	var audioTrack *webrtc.TrackLocalStaticSample
-
-	videoTrack, err = webrtc.NewTrackLocalStaticSample(webrtc.RTPCodecCapability{MimeType: "video/h264", ClockRate: 90000, Channels: 0, SDPFmtpLine: "packetization-mode=1;profile-level-id=42e01f", RTCPFeedback: nil}, "video", servicename)
+	videoTrack, err := webrtc.NewTrackLocalStaticSample(webrtc.RTPCodecCapability{MimeType: "video/h264", ClockRate: 90000, Channels: 0, SDPFmtpLine: "packetization-mode=1;profile-level-id=42e01f", RTCPFeedback: nil}, "video", servicename)
 	if err != nil {
 		panic(err)
 	}
 
-	_, err = peerConnection.AddTrack(videoTrack)
+	audioTrack, err := webrtc.NewTrackLocalStaticSample(webrtc.RTPCodecCapability{MimeType: "audio/opus"}, "audio", servicename)
 	if err != nil {
 		panic(err)
-	}
-
-	if env_audioSrc != "" {
-		audioTrack, err = webrtc.NewTrackLocalStaticSample(webrtc.RTPCodecCapability{MimeType: "audio/opus"}, "audio", servicename)
-		if err != nil {
-			panic(err)
-		}
-		_, err = peerConnection.AddTrack(audioTrack)
-		if err != nil {
-			panic(err)
-		}
 	}
 
 	// client join a session
-	err = c.Join(env_session, nil)
+	err = rtc.Join(env_session, sdk.RandomKey(4))
 
 	if err != nil {
 		log.Errorf("join err=%v", err)
 		panic(err)
 	}
+	_, _ = rtc.Publish(videoTrack, audioTrack)
 
 	// Start pushing buffers on these tracks
-	if env_audioSrc != "" {
-		gst.CreatePipeline("opus", []*webrtc.TrackLocalStaticSample{audioTrack}, env_audioSrc).Start()
-	}
 
+	gst.CreatePipeline("opus", []*webrtc.TrackLocalStaticSample{audioTrack}, env_audioSrc).Start()
 	gst.CreatePipeline("h264", []*webrtc.TrackLocalStaticSample{videoTrack}, env_videoSrc).Start()
 
 	http.HandleFunc("/healthz", healthz)
