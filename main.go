@@ -27,11 +27,17 @@ func main() {
 	env_session := os.Getenv("ISGS_SESSION")
 	env_videoSrc := os.Getenv("ISGS_VIDEO_SRC")
 	env_audioSrc := os.Getenv("ISGS_AUDIO_SRC")
+	env_turnAddr := os.Getenv("ISGS_TURN_ADDR")
+	env_turnUser := os.Getenv("ISGS_TURN_USER")
+	env_turnPass := os.Getenv("ISGS_TURN_PASS")
 
 	log.Infof("This is the env addr: %s", env_addr)
 	log.Infof("This is the env session: %s", env_session)
 	log.Infof("This is the env videosrc: %s", env_videoSrc)
 	log.Infof("This is the env audiosrc: %s", env_audioSrc)
+	log.Infof("This is the env turnaddr: %s", env_turnAddr)
+	log.Infof("This is the env turnaddr: %s", env_turnUser)
+	log.Infof("This is the env turnaddr: %s", env_turnPass)
 
 	servicename, err := os.Hostname()
 	if err != nil {
@@ -41,9 +47,11 @@ func main() {
 	// add stun servers
 	webrtcCfg := webrtc.Configuration{
 		ICEServers: []webrtc.ICEServer{
-			// webrtc.ICEServer{
-			// 	URLs: []string{"stun:stun.stunprotocol.org:3478", "stun:stun.l.google.com:19302"},
-			// },
+			{
+				URLs:       []string{"turn:" + env_turnAddr},
+				Username:   env_turnUser,
+				Credential: env_turnPass,
+			},
 		},
 	}
 

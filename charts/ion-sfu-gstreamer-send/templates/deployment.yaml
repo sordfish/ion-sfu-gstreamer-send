@@ -44,7 +44,13 @@ spec:
             - name: ISGS_VIDEO_SRC
               value: "{{ .Values.config.gstreamer.video.source }}"
             - name: ISGS_AUDIO_SRC
-              value: "{{ .Values.config.gstreamer.audio.source }}"          
+              value: "{{ .Values.config.gstreamer.audio.source }}"
+            - name: ISGS_TURN_ADDR
+              value: "{{ .Values.config.turn.address }}"
+            - name: ISGS_TURN_USER
+              value: "{{ .Values.config.turn.user }}"
+            - name: ISGS_TURN_PASS
+              value: "{{ .Values.config.turn.pass }}"
           ports:
             - name: videosrcport
               containerPort: {{ .Values.config.videosrcport }}

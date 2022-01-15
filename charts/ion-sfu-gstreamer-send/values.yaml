@@ -7,6 +7,10 @@ config:
   audiosrcport: 11000
   ionsfu:
     address: "ion-sfu:50051"
+  turn:  
+    address: ""
+    user: ""
+    pass: ""
   gstreamer:  
     debug: "2"
     audio:
@@ -22,7 +26,7 @@ image:
   repository: sordfish/ion-sfu-gstreamer-send
   pullPolicy: Always
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "v0.0.19"
+  tag: "v0.1.0"
 
 imagePullSecrets: []
 nameOverride: ""
