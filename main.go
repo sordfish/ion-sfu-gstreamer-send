@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"net/http"
 
-	gst "github.com/pion/ion-sdk-go/pkg/gstreamer-src"
+	gst "github.com/sordfish/ion-sfu-gstreamer-send/pkg/gstreamer-src"
 
 	ilog "github.com/pion/ion-log"
 	sdk "github.com/pion/ion-sdk-go"
@@ -53,7 +53,8 @@ func main() {
 	connector := sdk.NewConnector(env_addr)
 	rtc := sdk.NewRTC(connector, config)
 
-	videoTrack, err := webrtc.NewTrackLocalStaticSample(webrtc.RTPCodecCapability{MimeType: "video/h264", ClockRate: 90000, Channels: 0, SDPFmtpLine: "packetization-mode=1;profile-level-id=42e01f", RTCPFeedback: nil}, "video", servicename)
+	//videoTrack, err := webrtc.NewTrackLocalStaticSample(webrtc.RTPCodecCapability{MimeType: "video/h264", ClockRate: 90000, Channels: 0, SDPFmtpLine: "packetization-mode=1;profile-level-id=42e01f", RTCPFeedback: nil}, "video", servicename)
+	videoTrack, err := webrtc.NewTrackLocalStaticSample(webrtc.RTPCodecCapability{MimeType: "video/h264", ClockRate: 90000, Channels: 0, RTCPFeedback: nil}, "video", servicename)
 	if err != nil {
 		panic(err)
 	}
@@ -75,7 +76,7 @@ func main() {
 	// Start pushing buffers on these tracks
 
 	gst.CreatePipeline("opus", []*webrtc.TrackLocalStaticSample{audioTrack}, env_audioSrc).Start()
-	gst.CreatePipeline("h264", []*webrtc.TrackLocalStaticSample{videoTrack}, env_videoSrc).Start()
+	gst.CreatePipeline("bare", []*webrtc.TrackLocalStaticSample{videoTrack}, env_videoSrc).Start()
 
 	http.HandleFunc("/healthz", healthz)
 	http.ListenAndServe(":8090", nil)
