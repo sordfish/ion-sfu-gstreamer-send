@@ -51,5 +51,5 @@ require (
 )
 
 replace (
-    github.com/sordfish/ion-sfu-gstreamer-send/gstreamer-src => "./ion-sfu-gstreamer-send/gstreamer-src"
+    github.com/sordfish/ion-sfu-gstreamer-send/gstreamer-src => "./gstreamer-src"
 )	
