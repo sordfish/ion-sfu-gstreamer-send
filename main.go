@@ -6,11 +6,10 @@ import (
 	"fmt"
 	"net/http"
 
-	gst "github.com/sordfish/ion-sfu-gstreamer-send/gstreamer-src"
-
 	ilog "github.com/pion/ion-log"
 	sdk "github.com/pion/ion-sdk-go"
 	"github.com/pion/webrtc/v3"
+	gst "github.com/sordfish/ion-sfu-gstreamer-send/gstreamer-src"
 )
 
 var (

@@ -8,6 +8,10 @@ require (
 	github.com/pion/webrtc/v3 v3.1.15
 )
 
+replace (
+	github.com/pion/ion-sdk-go/pkg/gstreamer-src => ./gstreamer-src
+)
+
 require (
 	github.com/ebml-go/ebml v0.0.0-20160925193348-ca8851a10894 // indirect
 	github.com/ebml-go/webm v0.0.0-20160924163542-629e38feef2a // indirect
@@ -49,7 +53,3 @@ require (
 	google.golang.org/grpc v1.43.0 // indirect
 	google.golang.org/protobuf v1.27.1 // indirect
 )
-
-replace (
-    github.com/sordfish/ion-sfu-gstreamer-send/gstreamer-src => "./gstreamer-src"
-)	
