@@ -725,6 +725,8 @@ github.com/smartystreets/gunit v1.0.0/go.mod h1:qwPWnhz6pn0NnRBP++URONOVyNkPyr4S
 github.com/soheilhy/cmux v0.1.4/go.mod h1:IM3LyeVVIOuxMH7sFAkER9+bJ4dT7Ms6E4xg4kGIyLM=
 github.com/soheilhy/cmux v0.1.5/go.mod h1:T7TcVDs9LWfQgPlPsdngu6I6QIoyIFZDDC6sNE1GqG0=
 github.com/sony/gobreaker v0.4.1/go.mod h1:ZKptC7FHNvhBz7dN2LGjPVBz2sZJmc0/PkyDJOjmxWY=
+github.com/sordfish/go-gstreamer v0.0.0-20220121191137-cce085e92172 h1:n5YLdStYFlY9T8ovPisVe4pH/Y7DGF7fZ+4JE7DdaN0=
+github.com/sordfish/go-gstreamer v0.0.0-20220121191137-cce085e92172/go.mod h1:5y8UI8TnJO8E8mNq4Pqb2Yjv8T3D4DTlw/oNX/QEouE=
 github.com/sourcegraph/jsonrpc2 v0.0.0-20210201082850-366fbb520750/go.mod h1:ZafdZgk/axhT1cvZAPOhw+95nz2I/Ra5qMlU4gTRwIo=
 github.com/sourcegraph/jsonrpc2 v0.1.0/go.mod h1:ZafdZgk/axhT1cvZAPOhw+95nz2I/Ra5qMlU4gTRwIo=
 github.com/spaolacci/murmur3 v0.0.0-20180118202830-f09979ecbc72/go.mod h1:JwIasOWyU6f++ZhiEuf87xNszmSA2myDM2Kzu9HwQUA=

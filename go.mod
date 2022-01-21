@@ -8,10 +8,6 @@ require (
 	github.com/pion/webrtc/v3 v3.1.15
 )
 
-replace (
-	github.com/pion/ion-sdk-go/pkg/gstreamer-src => ./gstreamer-src
-)
-
 require (
 	github.com/ebml-go/ebml v0.0.0-20160925193348-ca8851a10894 // indirect
 	github.com/ebml-go/webm v0.0.0-20160924163542-629e38feef2a // indirect
@@ -42,6 +38,7 @@ require (
 	github.com/pion/udp v0.1.1 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/sirupsen/logrus v1.8.1 // indirect
+	github.com/sordfish/go-gstreamer v0.0.0-20220121191137-cce085e92172 // indirect
 	github.com/square/go-jose/v3 v3.0.0-20200630053402-0a67ce9b0693 // indirect
 	golang.org/x/crypto v0.0.0-20220112180741-5e0467b6c7ce // indirect
 	golang.org/x/net v0.0.0-20220114011407-0dd24b26b47d // indirect
