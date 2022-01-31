@@ -43,9 +43,34 @@ func main() {
 		panic(err)
 	}
 
+	var webrtcCfg webrtc.Configuration
+
+	if len(env_turnAddr) > 0 {
+
+		webrtcCfg = webrtc.Configuration{
+			ICEServers: []webrtc.ICEServer{
+				{
+					URLs:       []string{"turn:" + env_turnAddr},
+					Username:   env_turnUser,
+					Credential: env_turnPass,
+				},
+			},
+		}
+
+	} else {
+
+		webrtcCfg = webrtc.Configuration{
+			ICEServers: []webrtc.ICEServer{
+				webrtc.ICEServer{},
+			},
+		}
+
+	}
+
 	config := sdk.RTCConfig{
 		WebRTC: sdk.WebRTCTransportConfig{
-			VideoMime: "video/h264",
+			VideoMime:     "video/h264",
+			Configuration: webrtcCfg,
 		},
 	}
 

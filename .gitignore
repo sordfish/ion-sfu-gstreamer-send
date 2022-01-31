@@ -3,3 +3,4 @@ ion-sfu-gstreamer-send
 !ion-sfu-gstreamer-send/
 *.h264
 *.mp4
+*.log
